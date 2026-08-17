@@ -1,6 +1,3 @@
-.loading {
-  display:none
-}
 
 @keyframes loading-dot {
     0%, 60%, 100% {

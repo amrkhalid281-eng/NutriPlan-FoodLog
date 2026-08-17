@@ -137,10 +137,31 @@ function updateHeader(sectionId) {
 }
 
 // =======>>> call API`s <<<=======
-strArea()
-mealType()
-recipeShowing()
-renderFoodLog()
+async function initializeApp() {
+    const loadingOverlay = document.getElementById("app-loading-overlay");
+
+    try {
+        await Promise.all([
+            strArea(),
+            mealType(),
+            recipeShowing()
+        ]);
+
+        renderFoodLog();
+
+    } catch (error) {
+        console.error("App initialization error:", error);
+
+    } finally {
+        loadingOverlay.classList.add("opacity-0");
+
+        setTimeout(() => {
+            loadingOverlay.classList.add("hidden");
+        }, 500);
+    }
+}
+
+initializeApp();
 updateFoodLogNutrition()
 updateWeeklyChart()
 updateFoodLogDate()
