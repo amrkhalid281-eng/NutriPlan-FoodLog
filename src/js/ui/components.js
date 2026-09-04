@@ -98,11 +98,6 @@ function handleCategoryClick() {
         const clickedBtn = e.target.closest(".category-btn");
         if (!clickedBtn) return;
 
-        if (clickedBtn.textContent.trim() === "All Recipes") {
-            recipeShowing();
-            return;
-        }
-
         categoryList.querySelectorAll(".category-btn").forEach((btn) => {
             btn.classList.remove(...activeClasses);
             btn.classList.add(...inactiveClasses);
@@ -110,6 +105,11 @@ function handleCategoryClick() {
 
         clickedBtn.classList.remove(...inactiveClasses);
         clickedBtn.classList.add(...activeClasses);
+
+        if (clickedBtn.textContent.trim() === "All Recipes") {
+            recipeShowing();
+            return;
+        }
 
         const selectedArea = clickedBtn.textContent.trim();
         const res = await fetch(
@@ -352,8 +352,12 @@ function createRecipesListItem(meal) {
     `
 }
 
+let lastDisplayedRecipes = [];
+
 let currentView = "grid";
 function displayRecipes(recipes = dataRecipes) {
+    lastDisplayedRecipes = recipes;
+
     const grid = document.getElementById("recipes-grid");
     const countLabel = document.getElementById("recipes-count");
 
@@ -1480,7 +1484,7 @@ gridBtn.addEventListener("click", () => {
     recipesContainer.classList.remove(...listColsClasses);
     recipesContainer.classList.add(...gridColsClasses);
     setActiveButton(gridBtn, listBtn);
-    displayRecipes(dataRecipes);
+    displayRecipes(lastDisplayedRecipes);
 });
 
 listBtn.addEventListener("click", () => {
@@ -1490,7 +1494,7 @@ listBtn.addEventListener("click", () => {
     recipesContainer.classList.remove(...gridColsClasses);
     recipesContainer.classList.add(...listColsClasses);
     setActiveButton(listBtn, gridBtn);
-    displayRecipes(dataRecipes);
+    displayRecipes(lastDisplayedRecipes);
 });
 
 
@@ -1499,9 +1503,6 @@ listBtn.addEventListener("click", () => {
 
 
 // Barcode Section
-
-
-// =======>>> Product Scanner <<<=======
 
 const productSearchInput = document.getElementById("product-search-input");
 const searchProductBtn = document.getElementById("search-product-btn");
