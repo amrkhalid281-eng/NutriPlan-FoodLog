@@ -1495,3 +1495,507 @@ listBtn.addEventListener("click", () => {
 
 
 // ====> END <==
+
+
+
+// Barcode Section
+
+
+// =======>>> Product Scanner <<<=======
+
+const productSearchInput = document.getElementById("product-search-input");
+const searchProductBtn = document.getElementById("search-product-btn");
+const productsGrid = document.getElementById("products-grid");
+const productsCount = document.getElementById("products-count");
+const nutriScoreFilters = document.querySelectorAll(".nutri-score-filter");
+
+const PRODUCTS_API_BASE = "https://nutriplan-api.vercel.app/api";
+
+function createProductCard(product) {
+    const gradeColors = {
+        a: "bg-green-500",
+        b: "bg-lime-500",
+        c: "bg-yellow-500",
+        d: "bg-orange-500",
+        e: "bg-red-500"
+    };
+
+    const grade = (product.nutritionGrade || "").toLowerCase();
+    const gradeColor = gradeColors[grade] || "bg-gray-400";
+
+    return `
+        <div
+            class="product-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
+            data-barcode="${product.barcode}"
+        >
+            <div class="relative h-40 bg-gray-100 flex items-center justify-center overflow-hidden">
+                <img
+                    class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                    src="${product.image || ""}"
+                    alt="${product.name}"
+                    loading="lazy"
+                    onerror="this.style.display='none'"
+                />
+
+                ${grade ? `
+                <div class="absolute top-2 left-2 ${gradeColor} text-white text-xs font-bold px-2 py-1 rounded uppercase">
+                    Nutri-Score ${grade}
+                </div>` : ""}
+
+                ${product.novaGroup ? `
+                <div
+                    class="absolute top-2 right-2 bg-lime-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center"
+                    title="NOVA ${product.novaGroup}"
+                >
+                    ${product.novaGroup}
+                </div>` : ""}
+            </div>
+
+            <div class="p-4">
+                <p class="text-xs text-emerald-600 font-semibold mb-1 truncate">
+                    ${product.brand || "Unknown Brand"}
+                </p>
+                <h3 class="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+                    ${product.name || "Unnamed Product"}
+                </h3>
+
+                <div class="flex items-center gap-3 text-xs text-gray-500 mb-3">
+                    <span><i class="fa-solid fa-fire mr-1"></i>${Math.round(product.nutrients?.calories || 0)} kcal/100g</span>
+                </div>
+
+                <div class="grid grid-cols-4 gap-1 text-center">
+                    <div class="bg-emerald-50 rounded p-1.5">
+                        <p class="text-xs font-bold text-emerald-700">${Math.round(product.nutrients?.protein ?? 0)}g</p>
+                        <p class="text-[10px] text-gray-500">Protein</p>
+                    </div>
+                    <div class="bg-blue-50 rounded p-1.5">
+                        <p class="text-xs font-bold text-blue-700">${Math.round(product.nutrients?.carbs ?? 0)}g</p>
+                        <p class="text-[10px] text-gray-500">Carbs</p>
+                    </div>
+                    <div class="bg-purple-50 rounded p-1.5">
+                        <p class="text-xs font-bold text-purple-700">${Math.round(product.nutrients?.fat ?? 0)}g</p>
+                        <p class="text-[10px] text-gray-500">Fat</p>
+                    </div>
+                    <div class="bg-orange-50 rounded p-1.5">
+                        <p class="text-xs font-bold text-orange-700">${Math.round(product.nutrients?.sugar ?? 0)}g</p>
+                        <p class="text-[10px] text-gray-500">Sugar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+let currentProducts = [];
+let activeGrade = "";
+function displayProducts(products) {
+    currentProducts = products || [];
+
+    const filtered = activeGrade
+        ? currentProducts.filter(p => (p.nutritionGrade || "").toLowerCase() === activeGrade)
+        : currentProducts;
+
+    if (!filtered || filtered.length === 0) {
+        productsGrid.innerHTML = `
+            <div class="col-span-full flex flex-col items-center justify-center py-12 text-center">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-search text-gray-400 text-2xl"></i>
+                </div>
+                <p class="text-gray-500 text-lg">No products found</p>
+                <p class="text-gray-400 text-sm mt-2">Try searching for something else</p>
+            </div>
+        `;
+        productsCount.textContent = "Showing 0 products";
+        return;
+    }
+
+    productsGrid.innerHTML = filtered.map(createProductCard).join("");
+    productsCount.textContent = `Showing ${filtered.length} products`;
+}
+
+nutriScoreFilters.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        activeGrade = btn.dataset.grade;
+
+        nutriScoreFilters.forEach((b) => {
+            b.classList.remove("ring-2", "ring-offset-1", "ring-gray-900");
+        });
+
+        btn.classList.add("ring-2", "ring-offset-1", "ring-gray-900");
+
+        displayProducts(currentProducts);
+    });
+});
+
+async function searchProducts() {
+    const query = productSearchInput.value.trim();
+
+    if (query === "") return;
+
+    productsGrid.innerHTML = `
+        <div class="col-span-full flex items-center justify-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+        </div>
+    `;
+    productsCount.textContent = "Searching...";
+
+    try {
+        const res = await fetch(`${PRODUCTS_API_BASE}/products/search?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+
+        displayProducts(data.results);
+    } catch (error) {
+        console.error("Product search error:", error);
+        productsGrid.innerHTML = `
+            <div class="col-span-full text-center py-12 text-red-500">
+                Something went wrong. Please try again.
+            </div>
+        `;
+        productsCount.textContent = "";
+    }
+}
+
+searchProductBtn.addEventListener("click", searchProducts);
+
+productSearchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        searchProducts();
+    }
+});
+
+// 
+const barcodeInput = document.getElementById("barcode-input");
+const lookupBarcodeBtn = document.getElementById("lookup-barcode-btn");
+
+async function lookupBarcode() {
+    const barcode = barcodeInput.value.trim();
+
+    if (barcode === "") return;
+
+    productsGrid.innerHTML = `
+        <div class="col-span-full flex items-center justify-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+        </div>
+    `;
+    productsCount.textContent = "Looking up...";
+
+    try {
+        const res = await fetch(`${PRODUCTS_API_BASE}/products/barcode/${barcode}`);
+
+        if (!res.ok) {
+            displayProducts([]);
+            return;
+        }
+
+        const data = await res.json();
+
+        displayProducts(data.result ? [data.result] : []);
+    } catch (error) {
+        console.error("Barcode lookup error:", error);
+        productsGrid.innerHTML = `
+            <div class="col-span-full text-center py-12 text-red-500">
+                Something went wrong. Please try again.
+            </div>
+        `;
+        productsCount.textContent = "";
+    }
+}
+
+lookupBarcodeBtn.addEventListener("click", lookupBarcode);
+
+barcodeInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        lookupBarcode();
+    }
+});
+
+// 
+const productCategories = document.getElementById("product-categories");
+
+async function loadProductsByCategory(categoryId) {
+    productsGrid.innerHTML = `
+        <div class="col-span-full flex items-center justify-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+        </div>
+    `;
+    productsCount.textContent = "Loading...";
+
+    try {
+        const res = await fetch(`${PRODUCTS_API_BASE}/products/category/${categoryId}`);
+        const data = await res.json();
+
+        displayProducts(data.results);
+    } catch (error) {
+        console.error("Category load error:", error);
+        productsGrid.innerHTML = `
+            <div class="col-span-full text-center py-12 text-red-500">
+                Something went wrong. Please try again.
+            </div>
+        `;
+        productsCount.textContent = "";
+    }
+}
+
+productCategories.addEventListener("click", (e) => {
+    const clickedBtn = e.target.closest(".product-category-btn");
+    if (!clickedBtn) return;
+
+    const categoryId = clickedBtn.dataset.category;
+    loadProductsByCategory(categoryId);
+});
+
+
+/* product module */
+const productDetailsModal = document.getElementById("product-details-modal");
+const productModalContent = document.getElementById("product-modal-content");
+
+const gradeInfo = {
+    a: { color: "#1e8f4e", label: "Excellent" },
+    b: { color: "#68b912", label: "Good" },
+    c: { color: "#f8b100", label: "Average" },
+    d: { color: "#ee8100", label: "Poor" },
+    e: { color: "#e63e11", label: "Bad" }
+};
+
+const novaInfo = {
+    1: "Unprocessed",
+    2: "Processed culinary",
+    3: "Processed",
+    4: "Ultra-processed"
+};
+
+const novaColors = {
+    1: "#1e8f4e",
+    2: "#f8b100",
+    3: "#ee8100",
+    4: "#e63e11"
+};
+
+
+let currentProduct = null;
+function buildProductModalHTML(product) {
+    const grade = (product.nutritionGrade || "").toLowerCase();
+    const gInfo = gradeInfo[grade];
+    const nInfo = novaInfo[product.novaGroup];
+    const n = product.nutrients || {};
+
+    const calories = Math.round(n.calories || 0);
+    const protein = Math.round((n.protein || 0) * 10) / 10;
+    const carbs = Math.round((n.carbs || 0) * 10) / 10;
+    const fat = Math.round((n.fat || 0) * 10) / 10;
+    const sugar = Math.round((n.sugar || 0) * 10) / 10;
+    const fiber = n.fiber !== undefined ? Math.round(n.fiber * 10) / 10 : undefined;
+    const sodium = n.sodium !== undefined ? Math.round(n.sodium * 1000) / 1000 : undefined;
+    const salt = n.salt !== undefined ? Math.round(n.salt * 1000) / 1000 : undefined;
+    const saturatedFat = n.saturatedFat !== undefined ? Math.round(n.saturatedFat * 10) / 10 : undefined;
+
+    const maxVal = Math.max(protein, carbs, fat, sugar, 1);
+
+    return `
+        <div class="p-6">
+            <!-- Header -->
+            <div class="flex items-start gap-6 mb-6">
+                <div class="w-32 h-32 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
+                    <img src="${product.image || ""}" alt="${product.name || ""}" class="w-full h-full object-contain">
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm text-emerald-600 font-semibold mb-1">${product.brand || "Unknown Brand"}</p>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">${product.name || "Unnamed Product"}</h2>
+
+                    <div class="flex items-center gap-3">
+                        ${gInfo ? `
+                        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" style="background-color: ${gInfo.color}20">
+                            <span class="w-8 h-8 rounded flex items-center justify-center text-white font-bold" style="background-color: ${gInfo.color}">
+                                ${grade.toUpperCase()}
+                            </span>
+                            <div>
+                                <p class="text-xs font-bold" style="color: ${gInfo.color}">Nutri-Score</p>
+                                <p class="text-[10px] text-gray-600">${gInfo.label}</p>
+                            </div>
+                        </div>` : ""}
+
+                        ${nInfo ? `
+                        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" style="background-color: ${novaColors[product.novaGroup]}20">
+                            <span class="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold" style="background-color: ${novaColors[product.novaGroup]}">
+                                ${product.novaGroup}
+                            </span>
+                            <div>
+                                <p class="text-xs font-bold" style="color: ${novaColors[product.novaGroup]}">NOVA</p>
+                                <p class="text-[10px] text-gray-600">${nInfo}</p>
+                            </div>
+                        </div>` : ""}
+                    </div>
+                </div>
+                <button class="close-product-modal text-gray-400 hover:text-gray-600">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Nutrition Facts -->
+            <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-5 mb-6 border border-emerald-200">
+                <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie text-emerald-600"></i>
+                    Nutrition Facts <span class="text-sm font-normal text-gray-500">(per 100g)</span>
+                </h3>
+
+                <div class="text-center mb-4 pb-4 border-b border-emerald-200">
+                    <p class="text-4xl font-bold text-gray-900">${calories}</p>
+                    <p class="text-sm text-gray-500">Calories</p>
+                </div>
+
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="text-center">
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-emerald-500 h-2 rounded-full" style="width: ${(protein / maxVal) * 100}%"></div>
+                        </div>
+                        <p class="text-lg font-bold text-emerald-600">${protein}g</p>
+                        <p class="text-xs text-gray-500">Protein</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: ${(carbs / maxVal) * 100}%"></div>
+                        </div>
+                        <p class="text-lg font-bold text-blue-600">${carbs}g</p>
+                        <p class="text-xs text-gray-500">Carbs</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-purple-500 h-2 rounded-full" style="width: ${(fat / maxVal) * 100}%"></div>
+                        </div>
+                        <p class="text-lg font-bold text-purple-600">${fat}g</p>
+                        <p class="text-xs text-gray-500">Fat</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-orange-500 h-2 rounded-full" style="width: ${(sugar / maxVal) * 100}%"></div>
+                        </div>
+                        <p class="text-lg font-bold text-orange-600">${sugar}g</p>
+                        <p class="text-xs text-gray-500">Sugar</p>
+                    </div>
+                </div>
+
+                ${(saturatedFat !== undefined || fiber !== undefined || salt !== undefined || sodium !== undefined) ? `
+                <div class="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-emerald-200">
+                    ${saturatedFat !== undefined ? `
+                    <div class="text-center">
+                        <p class="text-sm font-semibold text-gray-900">${saturatedFat}g</p>
+                        <p class="text-xs text-gray-500">Saturated Fat</p>
+                    </div>` : ""}
+                    ${fiber !== undefined ? `
+                    <div class="text-center">
+                        <p class="text-sm font-semibold text-gray-900">${fiber}g</p>
+                        <p class="text-xs text-gray-500">Fiber</p>
+                    </div>` : ""}
+                    ${(salt !== undefined || sodium !== undefined) ? `
+                    <div class="text-center">
+                        <p class="text-sm font-semibold text-gray-900">${salt !== undefined ? salt : sodium}g</p>
+                        <p class="text-xs text-gray-500">${salt !== undefined ? "Salt" : "Sodium"}</p>
+                    </div>` : ""}
+                </div>` : ""}
+            </div>
+
+            ${product.ingredients ? `
+            <div class="bg-gray-50 rounded-xl p-5 mb-6">
+                <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list text-gray-600"></i>
+                    Ingredients
+                </h3>
+                <p class="text-sm text-gray-600 leading-relaxed">${product.ingredients}</p>
+            </div>` : ""}
+
+            ${product.allergens ? `
+            <div class="bg-red-50 rounded-xl p-5 mb-6 border border-red-200">
+                <h3 class="font-bold text-red-700 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Allergens
+                </h3>
+                <p class="text-sm text-red-600">${product.allergens}</p>
+            </div>` : ""}
+
+            <!-- Actions -->
+            <div class="flex gap-3">
+                <button class="add-product-to-log flex-1 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-all" data-barcode="${product.barcode}">
+                    <i class="fa-solid fa-plus mr-2"></i>Log This Food
+                </button>
+                <button class="close-product-modal flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all">
+                    Close
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function openProductModal(product) {
+    currentProduct = product;
+    productModalContent.innerHTML = buildProductModalHTML(product);
+    productDetailsModal.classList.remove("hidden");
+}
+
+productsGrid.addEventListener("click", (e) => {
+    const card = e.target.closest(".product-card");
+    if (!card) return;
+
+    const barcode = card.dataset.barcode;
+    const product = currentProducts.find(p => p.barcode === barcode);
+
+    if (product) {
+        openProductModal(product);
+    }
+});
+
+productDetailsModal.addEventListener("click", (e) => {
+    if (e.target.closest(".close-product-modal")) {
+        productDetailsModal.classList.add("hidden");
+    }
+});
+
+productDetailsModal.addEventListener("click", (e) => {
+    const logBtn = e.target.closest(".add-product-to-log");
+    if (!logBtn || !currentProduct) return;
+
+    const n = currentProduct.nutrients || {};
+
+    const loggedProduct = {
+        id: currentProduct.barcode,
+        name: currentProduct.name,
+        image: currentProduct.image,
+
+        servings: 1,
+
+        calories: Math.round(n.calories || 0),
+        protein: Math.round(n.protein || 0),
+        carbs: Math.round(n.carbs || 0),
+        fat: Math.round(n.fat || 0),
+
+        loggedAt: new Date().toISOString()
+    };
+
+    const loggedMeals = JSON.parse(localStorage.getItem("loggedMeals")) || [];
+    loggedMeals.push(loggedProduct);
+    localStorage.setItem("loggedMeals", JSON.stringify(loggedMeals));
+
+    renderFoodLog();
+    updateFoodLogNutrition();
+    updateWeeklyChart();
+
+    productDetailsModal.classList.add("hidden");
+
+    Swal.fire({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 2500,
+        timerProgressBar: true,
+        background: "#059669",
+        color: "#ffffff",
+        customClass: {
+            popup: "rounded-xl"
+        },
+        html: `
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14px;">
+                <span>${currentProduct.brand} logged to your daily intake!</span>
+                <i class="fa-solid fa-clipboard-list"></i>
+            </div>
+        `
+    });
+});

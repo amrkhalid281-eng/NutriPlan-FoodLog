@@ -1,4 +1,6 @@
-import { strArea, mealType, recipeShowing, renderFoodLog, updateFoodLogNutrition, updateWeeklyChart, updateFoodLogDate} from "./ui/components.js"
+import{ strArea, mealType, recipeShowing,
+        renderFoodLog, updateFoodLogNutrition, 
+        updateWeeklyChart, updateFoodLogDate} from "./ui/components.js"
 
 
 /**
@@ -7,7 +9,7 @@ import { strArea, mealType, recipeShowing, renderFoodLog, updateFoodLogNutrition
  * This is the main entry point for the application.
  * Import your modules and initialize the app here.
  */
-
+document.getElementById("search-product-btn")
 /* ====== DOM ====== */
 const navLink = document.querySelectorAll(".nav-link")
 const nutriPlanContant = document.querySelectorAll(".nutri-plan-contant")

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NutriPlan - Food, Nutrition & Fitness Planner</title>
-    <link rel="icon" href="./src/images/favicon.png">
+    <link rel="icon" href="./src/images/favicon.png" />
     <script>
       window.FontAwesomeConfig = { autoReplaceSvg: "nest" };
     </script>
@@ -125,12 +125,12 @@
       <div class="p-4 border-t border-gray-200">
         <div class="flex items-center gap-3 px-3">
           <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
+            src="./src/images/Amr-khalid.jpg"
             alt="User"
             class="w-10 h-10 rounded-full object-cover"
           />
           <div class="flex-1">
-            <p class="font-semibold text-gray-900 text-sm">Youssef Amir</p>
+            <p class="font-semibold text-gray-900 text-sm">Amr Khalid</p>
             <p class="text-xs text-gray-500">Premium Member</p>
           </div>
           <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
@@ -182,7 +182,10 @@
               </div>
             </div>
 
-            <div id="category-list" class="flex items-center gap-3 overflow-x-auto pb-2">
+            <div
+              id="category-list"
+              class="flex items-center gap-3 overflow-x-auto pb-2"
+            >
               <button
                 class="category-btn px-4 py-2 bg-emerald-600 text-white rounded-full font-medium text-sm whitespace-nowrap hover:bg-emerald-700 transition-all"
               >
@@ -315,7 +318,6 @@
             </div>
           </div>
         </section>
-
       </section>
 
       <section id="meal-details" class="px-8 py-8 bg-gray-50 hidden">
@@ -342,7 +344,10 @@
                 class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
               ></div>
               <div class="absolute bottom-0 left-0 right-0 p-8">
-                <div id="meal-category-badges" class="flex items-center gap-3 mb-3">
+                <div
+                  id="meal-category-badges"
+                  class="flex items-center gap-3 mb-3"
+                >
                   <span
                     class="px-3 py-1 bg-emerald-500 text-white text-sm font-semibold rounded-full"
                     >Chicken</span
@@ -360,10 +365,16 @@
                     >Casserole</span
                   >
                 </div>
-                <h1 id="meal-title" class="text-3xl md:text-4xl font-bold text-white mb-2">
+                <h1
+                  id="meal-title"
+                  class="text-3xl md:text-4xl font-bold text-white mb-2"
+                >
                   Teriyaki Chicken Casserole
                 </h1>
-                <div id="meal-badges" class="flex items-center gap-6 text-white/90">
+                <div
+                  id="meal-badges"
+                  class="flex items-center gap-6 text-white/90"
+                >
                   <!-- <span class="flex items-center gap-2">
                     <i class="fa-solid fa-clock"></i>
                     <span>30 min</span>
@@ -405,11 +416,16 @@
                 >
                   <i class="fa-solid fa-list-check text-emerald-600"></i>
                   Ingredients
-                  <span id="ingredients-count" class="text-sm font-normal text-gray-500 ml-auto"
+                  <span
+                    id="ingredients-count"
+                    class="text-sm font-normal text-gray-500 ml-auto"
                     >9 items</span
                   >
                 </h2>
-                <div id="ingredients-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div
+                  id="ingredients-list"
+                  class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                >
                   <!-- <div
                     class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
                   >
@@ -758,8 +774,13 @@
               </div>
 
               <!-- Recipe Source -->
-              <div id="recipe-source-card" class="bg-white rounded-2xl shadow-lg p-6">
-                <h2 class="text-lg font-bold text-gray-900 mb-3">Recipe Source</h2>
+              <div
+                id="recipe-source-card"
+                class="bg-white rounded-2xl shadow-lg p-6"
+              >
+                <h2 class="text-lg font-bold text-gray-900 mb-3">
+                  Recipe Source
+                </h2>
                 <a
                   id="recipe-source-link"
                   href="#"
@@ -777,7 +798,10 @@
       </section>
 
       <!-- ============= PRODUCT SCANNER SECTION ============= -->
-      <section id="products-section" class="nutri-plan-contant px-8 py-8 bg-gray-50 min-h-screen hidden">
+      <section
+        id="products-section"
+        class="nutri-plan-contant px-8 py-8 bg-gray-50 min-h-screen hidden"
+      >
         <div class="max-w-7xl mx-auto">
           <!-- Search Header -->
           <div
@@ -894,26 +918,31 @@
             >
               <button
                 class="product-category-btn px-4 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-emerald-200 transition-all"
+                data-category="snacks"
               >
                 <i class="fa-solid fa-cookie mr-1.5"></i>Snacks
               </button>
               <button
                 class="product-category-btn px-4 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-blue-200 transition-all"
+                data-category="beverages"
               >
                 <i class="fa-solid fa-glass-water mr-1.5"></i>Beverages
               </button>
               <button
-                class="product-category-btn px-4 py-2 bg-amber-100 text-amber-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-amber-200 transition-all"
+                class="product-category-btn px-4 py-2 bg-amber-50 text-amber-600 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-amber-200 transition-all"
+                data-category="breakfast-cereals"
               >
                 <i class="fa-solid fa-bread-slice mr-1.5"></i>Breakfast
               </button>
               <button
                 class="product-category-btn px-4 py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-purple-200 transition-all"
+                data-category="desserts"
               >
                 <i class="fa-solid fa-ice-cream mr-1.5"></i>Desserts
               </button>
               <button
-                class="product-category-btn px-4 py-2 bg-rose-100 text-rose-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-rose-200 transition-all"
+                class="product-category-btn px-4 py-2 bg-red-100 text-rose-600 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-rose-200 transition-all"
+                data-category="dairies"
               >
                 <i class="fa-solid fa-cheese mr-1.5"></i>Dairy
               </button>
@@ -933,7 +962,16 @@
               id="products-grid"
               class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
             >
-              <div
+              <div id="products-empty" class="py-12">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="text-3xl text-gray-400" data-fa-i2svg=""><svg class="svg-inline--fa fa-box-open" data-prefix="fas" data-icon="box-open" role="img" viewBox="0 0 640 512" aria-hidden="true" data-fa-i2svg=""><path fill="currentColor" d="M560.3 237.2c10.4 11.8 28.3 14.4 41.8 5.5 14.7-9.8 18.7-29.7 8.9-44.4l-48-72c-2.8-4.2-6.6-7.7-11.1-10.2L351.4 4.7c-19.3-10.7-42.8-10.7-62.2 0L88.8 116c-5.4 3-9.7 7.4-12.6 12.8L27.7 218.7c-12.6 23.4-3.8 52.5 19.6 65.1l33 17.7 0 53.3c0 23 12.4 44.3 32.4 55.7l176 99.7c19.6 11.1 43.5 11.1 63.1 0l176-99.7c20.1-11.4 32.4-32.6 32.4-55.7l0-117.5zm-240-9.8L170.2 144 320.3 60.6 470.4 144 320.3 227.4zm-41.5 50.2l-21.3 46.2-165.8-88.8 25.4-47.2 161.7 89.8z"></path></svg></i>
+                    </div>
+                    <p class="text-gray-500 text-lg mb-2">No products to display</p>
+                    <p class="text-gray-400 text-sm">Search for a product or browse by category</p>
+                </div>
+              </div>
+              <!-- <div
                 class="product-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
                 data-barcode="7613034626844"
               >
@@ -947,14 +985,12 @@
                     loading="lazy"
                   />
 
-                  <!-- Nutri-Score Badge -->
                   <div
                     class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded uppercase"
                   >
                     Nutri-Score A
                   </div>
 
-                  <!-- NOVA Badge -->
                   <div
                     class="absolute top-2 right-2 bg-lime-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center"
                     title="NOVA 2"
@@ -986,7 +1022,6 @@
                     >
                   </div>
 
-                  <!-- Mini Nutrition -->
                   <div class="grid grid-cols-4 gap-1 text-center">
                     <div class="bg-emerald-50 rounded p-1.5">
                       <p class="text-xs font-bold text-emerald-700">8.5g</p>
@@ -1006,14 +1041,17 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
       </section>
 
       <!-- ============= FOOD LOG SECTION ============= -->
-      <section id="foodlog-section" class="nutri-plan-contant px-8 py-8 bg-gray-50 min-h-screen hidden">
+      <section
+        id="foodlog-section"
+        class="nutri-plan-contant px-8 py-8 bg-gray-50 min-h-screen hidden"
+      >
         <div class="max-w-7xl mx-auto">
           <!-- Page Header -->
           <div
@@ -1058,7 +1096,11 @@
                   <span class="text-sm font-semibold text-gray-700"
                     >Calories</span
                   >
-                  <span id="calories-progress-text" class="text-sm text-gray-500">0 / 2000 kcal</span>
+                  <span
+                    id="calories-progress-text"
+                    class="text-sm text-gray-500"
+                    >0 / 2000 kcal</span
+                  >
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
                   <div
@@ -1074,7 +1116,9 @@
                   <span class="text-sm font-semibold text-gray-700"
                     >Protein</span
                   >
-                  <span id="protein-progress-text" class="text-sm text-gray-500">0 / 50 g</span>
+                  <span id="protein-progress-text" class="text-sm text-gray-500"
+                    >0 / 50 g</span
+                  >
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
                   <div
@@ -1088,7 +1132,9 @@
               <div class="bg-amber-50 rounded-xl p-4">
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-sm font-semibold text-gray-700">Carbs</span>
-                  <span id="carbs-progress-text" class="text-sm text-gray-500">0 / 250 g</span>
+                  <span id="carbs-progress-text" class="text-sm text-gray-500"
+                    >0 / 250 g</span
+                  >
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
                   <div
@@ -1102,7 +1148,9 @@
               <div class="bg-purple-50 rounded-xl p-4">
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-sm font-semibold text-gray-700">Fat</span>
-                  <span id="fat-progress-text" class="text-sm text-gray-500">0 / 65 g</span>
+                  <span id="fat-progress-text" class="text-sm text-gray-500"
+                    >0 / 65 g</span
+                  >
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
                   <div
@@ -1117,7 +1165,10 @@
             <!-- Logged Items -->
             <div class="border-t border-gray-200 pt-4">
               <div class="flex items-center justify-between mb-3">
-                <h4 id="logged-items-count" class="text-sm font-semibold text-gray-700">
+                <h4
+                  id="logged-items-count"
+                  class="text-sm font-semibold text-gray-700"
+                >
                   Logged Items (0)
                 </h4>
                 <button
@@ -1151,10 +1202,7 @@
               Weekly Overview
             </h3>
 
-            <div
-              id="weekly-chart"
-              class="h-64 bg-gray-50 rounded-xl"
-            >
+            <div id="weekly-chart" class="h-64 bg-gray-50 rounded-xl">
               <!-- Chart placeholder - JS will populate with Plotly -->
               <!-- <div class="text-center text-gray-400">
                 <i class="fa-solid fa-chart-line text-4xl mb-2"></i>
@@ -1222,16 +1270,19 @@
       <div
         class="my-w-25 max-w-7xl bg-white rounded-2xl shadow-2xl overflow-hidden"
       >
-
         <!-- Modal Body -->
         <div class="p-6">
-
           <!-- Meal Info -->
           <div class="flex items-center gap-4 mb-6">
-            <img id="modal-meal-image" src="" alt="" class="w-16 h-16 rounded-xl object-cover">
+            <img
+              id="modal-meal-image"
+              src=""
+              alt=""
+              class="w-16 h-16 rounded-xl object-cover"
+            />
             <div>
-                <h3 class="text-xl font-bold text-gray-900">Log This Meal</h3>
-                <p id="modal-meal-name" class="text-gray-500 text-sm"></p>
+              <h3 class="text-xl font-bold text-gray-900">Log This Meal</h3>
+              <p id="modal-meal-name" class="text-gray-500 text-sm"></p>
             </div>
           </div>
 
@@ -1247,51 +1298,134 @@
             </div>
 
             <div class="flex items-center gap-3">
-              <button id="decrease-servings" class="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
-                  <i class="text-gray-600" data-fa-i2svg=""><svg class="svg-inline--fa fa-minus" data-prefix="fas" data-icon="minus" role="img" viewBox="0 0 448 512" aria-hidden="true" data-fa-i2svg=""><path fill="currentColor" d="M0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32z"></path></svg></i>
+              <button
+                id="decrease-servings"
+                class="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
+              >
+                <i class="text-gray-600" data-fa-i2svg=""
+                  ><svg
+                    class="svg-inline--fa fa-minus"
+                    data-prefix="fas"
+                    data-icon="minus"
+                    role="img"
+                    viewBox="0 0 448 512"
+                    aria-hidden="true"
+                    data-fa-i2svg=""
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32z"
+                    ></path></svg
+                ></i>
               </button>
-              <input type="number" id="meal-servings" value="1" min="0.5" max="10" step="0.5" class="w-20 text-center text-xl font-bold border-2 border-gray-200 rounded-lg py-2">
-              <button id="increase-servings" class="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
-                  <i class="text-gray-600" data-fa-i2svg=""><svg class="svg-inline--fa fa-plus" data-prefix="fas" data-icon="plus" role="img" viewBox="0 0 448 512" aria-hidden="true" data-fa-i2svg=""><path fill="currentColor" d="M256 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 160-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0 0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-160z"></path></svg></i>
+              <input
+                type="number"
+                id="meal-servings"
+                value="1"
+                min="0.5"
+                max="10"
+                step="0.5"
+                class="w-20 text-center text-xl font-bold border-2 border-gray-200 rounded-lg py-2"
+              />
+              <button
+                id="increase-servings"
+                class="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
+              >
+                <i class="text-gray-600" data-fa-i2svg=""
+                  ><svg
+                    class="svg-inline--fa fa-plus"
+                    data-prefix="fas"
+                    data-icon="plus"
+                    role="img"
+                    viewBox="0 0 448 512"
+                    aria-hidden="true"
+                    data-fa-i2svg=""
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M256 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 160-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0 0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-160z"
+                    ></path></svg
+                ></i>
               </button>
             </div>
           </div>
 
           <!-- Nutrition -->
           <div class="bg-emerald-50 rounded-xl p-4 mb-6">
-            <p class="text-sm text-gray-600 mb-2">Estimated nutrition per serving:</p>
+            <p class="text-sm text-gray-600 mb-2">
+              Estimated nutrition per serving:
+            </p>
             <div class="grid grid-cols-4 gap-2 text-center">
-                <div>
-                    <p class="text-lg font-bold text-emerald-600" id="modal-calories">1274</p>
-                    <p class="text-xs text-gray-500">Calories</p>
-                </div>
-                <div>
-                    <p class="text-lg font-bold text-blue-600" id="modal-protein">32g</p>
-                    <p class="text-xs text-gray-500">Protein</p>
-                </div>
-                <div>
-                    <p class="text-lg font-bold text-amber-600" id="modal-carbs">240g</p>
-                    <p class="text-xs text-gray-500">Carbs</p>
-                </div>
-                <div>
-                    <p class="text-lg font-bold text-purple-600" id="modal-fat">45g</p>
-                    <p class="text-xs text-gray-500">Fat</p>
-                </div>
+              <div>
+                <p
+                  class="text-lg font-bold text-emerald-600"
+                  id="modal-calories"
+                >
+                  1274
+                </p>
+                <p class="text-xs text-gray-500">Calories</p>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-blue-600" id="modal-protein">
+                  32g
+                </p>
+                <p class="text-xs text-gray-500">Protein</p>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-amber-600" id="modal-carbs">
+                  240g
+                </p>
+                <p class="text-xs text-gray-500">Carbs</p>
+              </div>
+              <div>
+                <p class="text-lg font-bold text-purple-600" id="modal-fat">
+                  45g
+                </p>
+                <p class="text-xs text-gray-500">Fat</p>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Modal Footer -->
         <div class="flex gap-3 p-6">
-          <button id="cancel-log-meal" class="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all">
-              Cancel
+          <button
+            id="cancel-log-meal"
+            class="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all"
+          >
+            Cancel
           </button>
-          <button id="confirm-log-meal" class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all">
-              <i class="mr-2" data-fa-i2svg=""><svg class="svg-inline--fa fa-clipboard-list" data-prefix="fas" data-icon="clipboard-list" role="img" viewBox="0 0 384 512" aria-hidden="true" data-fa-i2svg=""><path fill="currentColor" d="M311.4 32l8.6 0c35.3 0 64 28.7 64 64l0 352c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l8.6 0C83.6 12.9 104.3 0 128 0L256 0c23.7 0 44.4 12.9 55.4 32zM248 112c13.3 0 24-10.7 24-24s-10.7-24-24-24L136 64c-13.3 0-24 10.7-24 24s10.7 24 24 24l112 0zM128 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm32 0c0 13.3 10.7 24 24 24l112 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-112 0c-13.3 0-24 10.7-24 24zm0 128c0 13.3 10.7 24 24 24l112 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-112 0c-13.3 0-24 10.7-24 24zM96 416a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"></path></svg></i>
-              Log Meal
+          <button
+            id="confirm-log-meal"
+            class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all"
+          >
+            <i class="mr-2" data-fa-i2svg=""
+              ><svg
+                class="svg-inline--fa fa-clipboard-list"
+                data-prefix="fas"
+                data-icon="clipboard-list"
+                role="img"
+                viewBox="0 0 384 512"
+                aria-hidden="true"
+                data-fa-i2svg=""
+              >
+                <path
+                  fill="currentColor"
+                  d="M311.4 32l8.6 0c35.3 0 64 28.7 64 64l0 352c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l8.6 0C83.6 12.9 104.3 0 128 0L256 0c23.7 0 44.4 12.9 55.4 32zM248 112c13.3 0 24-10.7 24-24s-10.7-24-24-24L136 64c-13.3 0-24 10.7-24 24s10.7 24 24 24l112 0zM128 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm32 0c0 13.3 10.7 24 24 24l112 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-112 0c-13.3 0-24 10.7-24 24zm0 128c0 13.3 10.7 24 24 24l112 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-112 0c-13.3 0-24 10.7-24 24zM96 416a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"
+                ></path></svg
+            ></i>
+            Log Meal
           </button>
         </div>
       </div>
+    </div>
+
+    <!-- ============= PRODUCT DETAILS MODAL ============= -->
+    <div
+      id="product-details-modal"
+      class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+    >
+      <div id="product-modal-content" class="bg-white rounded-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"></div>
     </div>
 
     <!-- Main JavaScript Entry Point -->
